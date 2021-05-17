@@ -1,5 +1,7 @@
 ﻿using Blockchain.Core;
 using System;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace Blockchain.Console
 {
@@ -26,6 +28,10 @@ namespace Blockchain.Console
             block.Hash = Block.CreateHash(block);
 
             chain.AddBlock(block);
+
+            var json = JsonSerializer.Serialize(chain);
+            System.Console.WriteLine(json);
+            System.Console.ReadLine();
 
             System.Diagnostics.Debugger.Break();
         }

@@ -20,6 +20,11 @@ namespace Blockchain.Core
 
             // Add genesis block
             var block = new Block() { Index = 0 };
+
+            var tran = new Transaction();
+            tran.Outputs.Add(new TransactionOutput() { Address = "", Amount = 1000000 });
+
+            block.Transactions.Add(tran);
             Blocks.Add(block);
         }
 

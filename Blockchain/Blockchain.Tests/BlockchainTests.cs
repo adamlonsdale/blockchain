@@ -14,7 +14,7 @@ namespace Blockchain.Tests
         public void VerifyGenesisHash()
         {
             var chain = new Core.Blockchain();
-            Assert.AreEqual("4d2805c1fdb619380e1a59728a6974d31b8d7f4957034d71f9d874475607972b", chain.LatestBlock.Hash);
+            Assert.AreEqual("499b06c6d39b4c1fe9305962a4cb858be2a172b3c51dbea02836f1235a0e4906", chain.Blocks[0].Hash);
         }
 
         [TestMethod]

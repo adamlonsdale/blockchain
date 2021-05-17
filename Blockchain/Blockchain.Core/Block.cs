@@ -38,7 +38,7 @@ namespace Blockchain.Core
         {
             using (SHA256 sha256 = SHA256.Create())
             {
-                string rawData = $"{block.ParentHash}{block.Timestamp}{block.Transactions}{block.Nonce}";
+                string rawData = $"{block.ParentHash}{block.Timestamp}{string.Join(",",block.Transactions)}{block.Nonce}";
                 byte[] bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(rawData));
                 return Utils.ByteArrayToString(bytes);
             }
