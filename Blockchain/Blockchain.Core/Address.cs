@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Blockchain.Core
 {
-    public class Address
+    public class Address : IEquatable<Address>
     {
         private readonly Random random;
         private byte[] bytes;
@@ -57,6 +57,16 @@ namespace Blockchain.Core
         public override string ToString()
         {
             return Utils.ByteArrayToString(this.bytes);
+        }
+
+        public static Address Parse(string address)
+        {
+            return new Address(Utils.StringToByteArray(address));
+        }
+
+        public bool Equals(Address other)
+        {
+            return bytes.SequenceEqual(other.Bytes);
         }
     }
 }

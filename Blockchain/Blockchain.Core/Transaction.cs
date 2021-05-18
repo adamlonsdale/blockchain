@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Blockchain.Core
 {
-    public class Transaction
+    public class Transaction : IEquatable<Transaction>
     {
         public Transaction()
         {
@@ -30,6 +30,11 @@ namespace Blockchain.Core
 
         [JsonPropertyName("h")]
         public string Hash => CalculateHash();
+
+        public bool Equals(Transaction other)
+        {
+            return Hash == other.CalculateHash();
+        }
 
         public override string ToString() => Hash;
 

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Blockchain.Core
 {
-    public class TransactionOutput
+    public class TransactionOutput 
     {
         public Address Address { get; set; }
         public long Amount { get; set; }

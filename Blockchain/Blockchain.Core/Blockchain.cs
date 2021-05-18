@@ -9,20 +9,22 @@ namespace Blockchain.Core
 {
     public class Blockchain
     {
-        public IList<Transaction> PendingTransactions { get; set; }
+        private TransactionManager transactionManager;
+
+        public IList<Transaction> PendingTransactions => transactionManager.GetPendingTransactions();
         public IList<Block> Blocks { get; set; }
         public Block LatestBlock => Blocks[Blocks.Count - 1];
 
         public Blockchain()
         {
-            PendingTransactions = new List<Transaction>();
+            this.transactionManager = new TransactionManager();
             Blocks = new List<Block>();
 
             // Add genesis block
             var block = new Block() { Index = 0 };
 
             var tran = new Transaction();
-            tran.Outputs.Add(new TransactionOutput() { Address = "", Amount = 1000000 });
+            tran.Outputs.Add(new TransactionOutput() { Address = new Address(), Amount = 1000000 });
 
             block.Transactions.Add(tran);
             Blocks.Add(block);
@@ -30,7 +32,9 @@ namespace Blockchain.Core
 
         public Blockchain(IList<Transaction> transactions, IList<Block> blocks)
         {
-            PendingTransactions = transactions;
+            this.transactionManager = new TransactionManager();
+            this.transactionManager.AddPendingTransactions(transactions);
+
             Blocks = blocks;
         }
 
@@ -45,8 +49,10 @@ namespace Blockchain.Core
             if (block.Hash != Block.CreateHash(block))
                 throw new HashNotEqualException();
 
+            foreach (var transaction in block.Transactions)
+                this.transactionManager.RemovePendingTransaction(transaction);
+
             Blocks.Add(block);
-            PendingTransactions.Clear();
         }
 
         public Block GetBlock(int index)

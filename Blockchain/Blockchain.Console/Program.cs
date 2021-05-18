@@ -1,5 +1,6 @@
 ﻿using Blockchain.Core;
 using System;
+using System.Collections.Generic;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -14,7 +15,19 @@ namespace Blockchain.Console
             var client1 = new Address();
             var client2 = new Address();
 
-            var transaction = new Transaction() { FromAddress = client1, ToAddress = client2, Value = 100 };
+            var transaction = new Transaction()
+            {
+                Inputs = new List<TransactionInput> 
+                { 
+                    new TransactionInput() { Address = client1, Amount = 1000 } 
+                },
+                Outputs = new List<TransactionOutput> 
+                { 
+                    new TransactionOutput() { Address = client2, Amount = 400 }, 
+                    new TransactionOutput() { Address = client1, Amount = 600 } // UTXO
+                },
+                 Timestamp = DateTime.Now
+            };
 
             chain.PendingTransactions.Add(transaction);
 
@@ -31,7 +44,6 @@ namespace Blockchain.Console
 
             var json = JsonSerializer.Serialize(chain);
             System.Console.WriteLine(json);
-            System.Console.ReadLine();
 
             System.Diagnostics.Debugger.Break();
         }
